@@ -14,17 +14,14 @@ class App extends Component {
     showPersons: false
   };
 
-  switchNameHandler = newName => {
-    // console.log('Was clicked!');
-    // DON'T DO THIS: this.state.persons[0].name = 'Maximilian';
-    this.setState({
-      persons: [
-        { name: newName, age: 28 },
-        { name: "Manu", age: 29 },
-        { name: "Stephanie", age: 27 }
-      ]
-    });
-  };
+ deletePersonHandler = (personIndex) => {
+  //Fetch all the persons
+  const newPersonsArray = this.state.persons;
+  //Remove a person from allPersons array (delete it)
+  newPersonsArray.splice(personIndex, 1);
+  //setState (change the value) of the persons object we created under state, with the new persons array
+  this.setState({persons: newPersonsArray})
+ }
 
   nameChangedHandler = event => {
     this.setState({
@@ -56,8 +53,9 @@ class App extends Component {
     if (this.state.showPersons) {
       persons = (
         <div>
-          {this.state.persons.map(personParam => {
+          {this.state.persons.map((personParam, index) => {
             return <Person 
+            click={() => this.deletePersonHandler(index)} //Passing in as a function to have access to the index
             name={personParam.name} 
             age={personParam.age} />;
           })}
