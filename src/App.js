@@ -16,9 +16,11 @@ class App extends Component {
 
  deletePersonHandler = (personIndex) => {
   //Fetch all the persons
-  const newPersonsArray = this.state.persons;
+  //const newPersonsArray = this.state.persons.slice();
+  //OR
+  const newPersonsArray = [...this.state.persons]; //This is known as spread. It spreads the elements in the array and then adds the persons array
   //Remove a person from allPersons array (delete it)
-  newPersonsArray.splice(personIndex, 1);
+  newPersonsArray.splice(personIndex, 1); //This can lead to unpredictable apps
   //setState (change the value) of the persons object we created under state, with the new persons array
   this.setState({persons: newPersonsArray})
  }
