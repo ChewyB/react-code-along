@@ -5,7 +5,7 @@ import person from "./Person/Person";
 
 class App extends Component {
   state = {
-    persons: [
+    persons: [ //This is the persons object array
       { name: "Max", age: 28 },
       { name: "Manu", age: 29 },
       { name: "Stephanie", age: 26 }
@@ -52,7 +52,7 @@ class App extends Component {
       cursor: "pointer"
     };
 
-    let persons = null;
+    let persons = null; //We create the persons variable that will hold all Person components
     if (this.state.showPersons) {
       persons = (
         <div>
@@ -74,7 +74,9 @@ class App extends Component {
           Toggle Persons
         </button>
 
-        {persons}
+        {persons} {/* This is the format of JSX between the brackets */}
+        
+
       </div>
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
