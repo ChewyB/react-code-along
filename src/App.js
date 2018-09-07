@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import "./App.css";
 import Person from "./Person/Person";
-import person from "./Person/Person";
 
 class App extends Component {
   state = {
     persons: [ //This is the persons object array
-      { name: "Max", age: 28 },
-      { name: "Manu", age: 29 },
-      { name: "Stephanie", age: 26 }
+      { id: "p1", name: "Max", age: 28 },
+      { id: "p2", name: "Manu", age: 29 },
+      { id: "p3", name: "Stephanie", age: 26 }
     ],
     otherState: "some other value",
     showPersons: false
@@ -58,6 +57,7 @@ class App extends Component {
           {this.state.persons.map((personParam, index) => {
             return <Person 
             click={() => this.deletePersonHandler(index)} //Passing in as a function to have access to the index
+            key={personParam.id}
             name={personParam.name} 
             age={personParam.age} />;
           })}
