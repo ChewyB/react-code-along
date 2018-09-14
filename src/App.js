@@ -55,7 +55,6 @@ class App extends Component {
               <ErrorBoundary key= {personParam.id}>
                 <Person 
                 click= {() => this.deletePersonHandler(index)} //Passing in as a function to have access to the index 
-                
                 name= {personParam.name}
                 age= {personParam.age}
                 changed= {event => this.nameChangedHandler(event)}
