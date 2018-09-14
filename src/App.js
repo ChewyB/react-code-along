@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import "./App.css";
+import classes from "./App.css";
 import Person from "./Person/Person";
+import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
 
 class App extends Component {
   state = {
@@ -43,18 +44,7 @@ class App extends Component {
   };
 
   render() {
-    const style = {
-      backgroundColor: "green",
-      font: "inherit",
-      border: "1px solid blue",
-      padding: "8px",
-      cursor: "pointer",
-      ":hover": {
-        //This is part of Radium
-        backgroundColor: "lightgreen",
-        color: "black"
-      }
-    };
+    let btnClass = "";
 
     let persons = null; //We create the persons variable that will hold all Person components
     if (this.state.showPersons) {
@@ -62,18 +52,20 @@ class App extends Component {
         <div>
           {this.state.persons.map((personParam, index) => {
             return (
-              <Person
-                click={() => this.deletePersonHandler(index)} //Passing in as a function to have access to the index
-                key={personParam.id}
-                name={personParam.name}
-                age={personParam.age}
-              />
+              <ErrorBoundary key= {personParam.id}>
+                <Person 
+                click= {() => this.deletePersonHandler(index)} //Passing in as a function to have access to the index 
+                
+                name= {personParam.name}
+                age= {personParam.age}
+                changed= {event => this.nameChangedHandler(event)}
+                />
+              </ErrorBoundary>
             );
           })}
         </div>
       );
-      style.backgroundColor = "red";
-
+      btnClass = classes.Red;
       //This is done through Radium
       // style[":hover"] = {
       //   backgroundColor: "salmon",
@@ -83,23 +75,21 @@ class App extends Component {
 
     let styleClasses = [];
     if (this.state.persons.length <= 2) {
-      styleClasses.push("red");
+      styleClasses.push(classes.red);
     }
     if (this.state.persons.length <= 1) {
-      styleClasses.push("bold");
+      styleClasses.push(classes.bold);
     }
 
     return (
-     
-        <div className="App">
-          <h1>Hi, I'm a React App</h1>
-          <p className={styleClasses.join(" ")}>This is really working!</p>
-          <button style={style} onClick={this.togglePersonHandler}>
-            Toggle Persons
-          </button>
-          {persons} {/* This is the format of JSX between the brackets */}
-        </div>
-     
+      <div className={classes.App}>
+        <h1>Hi, I'm a React App</h1>
+        <p className={styleClasses.join(" ")}>This is really working!</p>
+        <button className={btnClass} onClick={this.togglePersonHandler}>
+          Toggle Persons
+        </button>
+        {persons} {/* This is the format of JSX between the brackets */}
+      </div>
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
   }
