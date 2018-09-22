@@ -1,19 +1,32 @@
 import React, { Component } from "react";
 import classes from "./App.css";
-import Person from "./Person/Person";
-import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
-  state = {
-    persons: [
-      //This is the persons object array
-      { id: "p1", name: "Max", age: 28 },
-      { id: "p2", name: "Manu", age: 29 },
-      { id: "p3", name: "Stephanie", age: 26 }
-    ],
-    otherState: "some other value",
-    showPersons: false
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      persons: [
+        //This is the persons object array
+        { id: "p1", name: "Max", age: 28 },
+        { id: "p2", name: "Manu", age: 29 },
+        { id: "p3", name: "Stephanie", age: 26 }
+      ],
+      otherState: "some other value",
+      showPersons: false
+    };
+    console.log("(App.js) constructor()")
+  }
+
+  componentWillMount() {
+    console.log("(App.js) componentWillMount()");
+  }
+  
+  componentDidMount() {
+    console.log("(App.js) componentDidMount()");
+  }
 
   deletePersonHandler = personIndex => {
     //Fetch all the persons
@@ -44,27 +57,16 @@ class App extends Component {
   };
 
   render() {
-    let btnClass = "";
-
+    console.log("(App.js) render()");
     let persons = null; //We create the persons variable that will hold all Person components
     if (this.state.showPersons) {
       persons = (
-        <div>
-          {this.state.persons.map((personParam, index) => {
-            return (
-              <ErrorBoundary key= {personParam.id}>
-                <Person 
-                click= {() => this.deletePersonHandler(index)} //Passing in as a function to have access to the index 
-                name= {personParam.name}
-                age= {personParam.age}
-                changed= {event => this.nameChangedHandler(event)}
-                />
-              </ErrorBoundary>
-            );
-          })}
-        </div>
+          <Persons
+          persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangedHandler}
+          />
       );
-      btnClass = classes.Red;
       //This is done through Radium
       // style[":hover"] = {
       //   backgroundColor: "salmon",
@@ -72,21 +74,16 @@ class App extends Component {
       // };
     }
 
-    let styleClasses = [];
-    if (this.state.persons.length <= 2) {
-      styleClasses.push(classes.red);
-    }
-    if (this.state.persons.length <= 1) {
-      styleClasses.push(classes.bold);
-    }
+   
 
     return (
       <div className={classes.App}>
-        <h1>Hi, I'm a React App</h1>
-        <p className={styleClasses.join(" ")}>This is really working!</p>
-        <button className={btnClass} onClick={this.togglePersonHandler}>
-          Toggle Persons
-        </button>
+        <Cockpit 
+        appTitle={this.props.title}
+        showPersons={this.state.showPersons}
+        persons={this.state.persons}
+        click={this.togglePersonHandler}/>
+
         {persons} {/* This is the format of JSX between the brackets */}
       </div>
     );
